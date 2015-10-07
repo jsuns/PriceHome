@@ -74,7 +74,8 @@ def run_nmf(X, vectorizer, n_topics=4, print_top_words=False):
 			print()
 	
 	return H 
-def get_median_neighbors(df, n_neighbors):
+
+def get_median_neighbors(df, n_neighbors, adj_r):
 	'''
 	INPUT: Pandas dataframe, and the number of comparable neighbors
 	of each listing we'll take the median price of in adding the 
@@ -103,7 +104,7 @@ def get_median_neighbors(df, n_neighbors):
 	        (sub_df['beds']  == n_beds)  &
 	        # (sub_df['sale_y'] == sale_y) &
 	        #(sub_df['baths'] == n_baths) &
-	        (sub_df['id'] != listing_id)
+	        (sub_df['id']    != listing_id)
 	        ]
 
 	    comp_listings = [item for item in listing_neighbors if item in sub_df.index]
@@ -112,7 +113,7 @@ def get_median_neighbors(df, n_neighbors):
 	    df_filtered['last sale price']= df['last sale price'][comp_listings][:n_neighbors]
 	    df_filtered['sale_y'] = df['sale_y'][comp_listings][:n_neighbors]
 
-	    df_filtered['price adjusted'] = df_filtered['last sale price'] * (1.0 + (sale_y - df_filtered['sale_y']) * 0.1)
+	    df_filtered['price adjusted'] = df_filtered['last sale price'] * (1.0 + (sale_y - df_filtered['sale_y']) * adj_r)
 	    med_price = df_filtered['price adjusted'].median()
 	    if med_price > 0:
 	        median_neighbor_prices.append(med_price)
@@ -123,8 +124,62 @@ def get_median_neighbors(df, n_neighbors):
 			df_filtered['last sale price']= df['last sale price'][comp_listings][:n_neighbors+10]
 			df_filtered['sale_y'] = df['sale_y'][comp_listings][:n_neighbors+10]
 
-			df_filtered['price adjusted'] = df_filtered['last sale price'] * (1.0 + (sale_y - df_filtered['sale_y']) * 0.1)
+			df_filtered['price adjusted'] = df_filtered['last sale price'] * (1.0 + (sale_y - df_filtered['sale_y']) * adj_r)
 			med_price = df_filtered['price adjusted'].median()
+			
+			if med_price > 0:
+			    median_neighbor_prices.append(med_price)
+			else:
+				df['price adjusted'] = df['last sale price'] * (1.0 + (sale_y - df['sale_y']) * adj_r)
+				med_price = df['price adjusted'][comp_listings].median()
+				#med_price = df['last sale price'][comp_listings].median()
+				median_neighbor_prices.append(med_price)
+
+	df['med_neighbor_price'] = median_neighbor_prices
+	   
+	rmse = np.mean((df['med_neighbor_price'] - df['last sale price'])**2)**0.5
+	print 'RMSE is ', rmse
+	return df    
+
+def get_median_neighbors_no_adjust(df, n_neighbors):
+	'''
+	INPUT: Pandas dataframe, and the number of comparable neighbors
+	of each listing we'll take the median price of in adding the 
+	median_neighbor_prices feature
+	OUTPUT: Pandas dataframe with the median prices of the n_neighbors
+	closest comparables added as a feature. This is accomplished using a 
+	KD-Tree model to search for nearest-neighbors
+	'''
+	kd_df = df[['latitude', 'longitude']]
+	kdvals = kd_df.values
+	kd = KDTree(kdvals, leaf_size = 1000)
+	cPickle.dump(kd, open('../models/kd_tree.pkl', 'wb'))
+	neighbors = kd.query(kdvals, k=100)
+
+	median_neighbor_prices = []
+	
+	for i in xrange(len(df)):
+	    listing_neighbors = neighbors[1][i]
+	    listing_id = df.ix[i,'id']
+	    n_beds = df.ix[i,'beds']
+	    sale_y = df.ix[i, 'sale_y']
+	    #n_baths = df.ix[i,'baths']
+
+	    sub_df = df[(df.index.isin(listing_neighbors))]
+	    sub_df = sub_df[
+	        (sub_df['beds']  == n_beds)  &
+	        (sub_df['sale_y'] == sale_y) &
+	        #(sub_df['baths'] == n_baths) &
+	        (sub_df['id']    != listing_id)
+	        ]
+
+	    comp_listings = [item for item in listing_neighbors if item in sub_df.index]
+	    med_price = df['last sale price'][comp_listings][:n_neighbors].median()	    
+
+	    if med_price > 0:
+	        median_neighbor_prices.append(med_price)
+	    else:
+			med_price = df['last sale price'][comp_listings][:(n_neighbors+10)].median()
 			
 			if med_price > 0:
 			    median_neighbor_prices.append(med_price)
@@ -137,4 +192,3 @@ def get_median_neighbors(df, n_neighbors):
 	rmse = np.mean((df['med_neighbor_price'] - df['last sale price'])**2)**0.5
 	print 'RMSE is ', rmse
 	return df    
-
