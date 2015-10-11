@@ -51,7 +51,7 @@ def get_tfidf(clean_desc):
 	return vectorizer, X
 
 
-def run_nmf(X, vectorizer, n_topics=4, print_top_words=False):
+def run_nmf(X, vectorizer, n_topics=5, print_top_words=False):
 	'''
 	INPUT: Vectorized word array, vectorizer object, number of latent 
 	features to uncover, whether to print the top words from each latent
@@ -97,19 +97,15 @@ def get_median_neighbors(df, n_neighbors, adj_r):
 	    listing_id = df.ix[i,'id']
 	    n_beds = df.ix[i,'beds']
 	    sale_y = df.ix[i, 'sale_y']
-	    #n_baths = df.ix[i,'baths']
-
+	   
 	    sub_df = df[(df.index.isin(listing_neighbors))]
 	    sub_df = sub_df[
 	        (sub_df['beds']  == n_beds)  &
-	        # (sub_df['sale_y'] == sale_y) &
-	        #(sub_df['baths'] == n_baths) &
 	        (sub_df['id']    != listing_id)
 	        ]
 
 	    comp_listings = [item for item in listing_neighbors if item in sub_df.index]
 	    df_filtered = pd.DataFrame()
-	    # med_price = df['last sale price'][comp_listings][:n_neighbors].median()	    
 	    df_filtered['last sale price']= df['last sale price'][comp_listings][:n_neighbors]
 	    df_filtered['sale_y'] = df['sale_y'][comp_listings][:n_neighbors]
 
@@ -118,9 +114,7 @@ def get_median_neighbors(df, n_neighbors, adj_r):
 	    if med_price > 0:
 	        median_neighbor_prices.append(med_price)
 	    else:
-			#med_price = df['last sale price'][comp_listings][:(n_neighbors+10)].median()
 			df_filtered = pd.DataFrame()
-			# med_price = df['last sale price'][comp_listings][:n_neighbors].median()	    
 			df_filtered['last sale price']= df['last sale price'][comp_listings][:n_neighbors+10]
 			df_filtered['sale_y'] = df['sale_y'][comp_listings][:n_neighbors+10]
 
@@ -132,7 +126,6 @@ def get_median_neighbors(df, n_neighbors, adj_r):
 			else:
 				df['price adjusted'] = df['last sale price'] * (1.0 + (sale_y - df['sale_y']) * adj_r)
 				med_price = df['price adjusted'][comp_listings].median()
-				#med_price = df['last sale price'][comp_listings].median()
 				median_neighbor_prices.append(med_price)
 
 	df['med_neighbor_price'] = median_neighbor_prices
@@ -163,13 +156,11 @@ def get_median_neighbors_no_adjust(df, n_neighbors):
 	    listing_id = df.ix[i,'id']
 	    n_beds = df.ix[i,'beds']
 	    sale_y = df.ix[i, 'sale_y']
-	    #n_baths = df.ix[i,'baths']
-
+	   
 	    sub_df = df[(df.index.isin(listing_neighbors))]
 	    sub_df = sub_df[
 	        (sub_df['beds']  == n_beds)  &
 	        (sub_df['sale_y'] == sale_y) &
-	        #(sub_df['baths'] == n_baths) &
 	        (sub_df['id']    != listing_id)
 	        ]
 
