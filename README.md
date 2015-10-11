@@ -31,7 +31,7 @@ I vectoriezed the descriptions of the listings with TF-IDF, then used Non-negati
 ## Models
 I compared random forest, linear regression and gradient boosting and found gradient boosting performed the best.
 I did five different models in my study, and compared the results of each model.
-![models](readme/models.png)
+![model](readme/model.png)
 
 
 ## Possible future work
