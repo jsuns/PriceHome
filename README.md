@@ -26,7 +26,7 @@ To predict the price, I used Medain Neighbors Price to approximate the way how r
 I used k-Nearest Neighbors algorithm to find the k nearest neighbors, and calculate the median price. Finding the geographically closed comparable listings to any given listing involves computationally expansive calculation. I adopted KD-Trees to recursively partition the dataset by latitude and longitude before doing the search.
 
 #### Latent Features
-I vectoriezed the descriptions of the listings with TF-IDF, then used Non-negative Matrix Factorization to get four latent features and incorperated them into my models
+I vectoriezed the descriptions of the listings with TF-IDF, then used Non-negative Matrix Factorization to get four latent features and incorperated them into my models.
 
 ## Models
 I compared random forest, linear regression and gradient boosting and found gradient boosting performed the best.
@@ -35,8 +35,8 @@ I did five different models in my study, and compared the results of each model.
 
 
 ## Possible future work
-Extract more features from web page (school information, more interior information)
-Personalize the model by zip codes
+* Extract more features from web page (school information, more interior information)
+* Personalize the model by zip codes
 
 
 
