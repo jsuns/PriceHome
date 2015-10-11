@@ -30,7 +30,8 @@ I vectoriezed the descriptions of the listings with TF-IDF, then used Non-negati
 
 ## Models
 I compared random forest, linear regression and gradient boosting and found gradient boosting performed the best.
-I did six set ups in my study, and compared the results of each set up.
+I did five different models in my study, and compared the results of each model.
+![models](readme/models.png)
 
 
 ## Possible future work
@@ -40,13 +41,13 @@ Personalize the model by zip codes
 
 
 ## Libraries Used
-Numpy
-Pandas
-scikit-learn
-matplotlib
-urllib
-BeautifulSoup
-NLTK
+* Numpy
+* Pandas
+* scikit-learn
+* matplotlib
+* seaborn
+* BeautifulSoup
+* NLTK
 
 
 
