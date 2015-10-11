@@ -7,7 +7,7 @@ During the past three years, the low inventory and high demand in San Francisco 
 PriceHome intends to help whoever wants to buy a home in San Francisco to predict the market value of a new listing. PriceHome used machine learning approach combining K-nearest Neighbors, Binary Space Partitioning, Gradient Boosting, Natural language Processing methods to accomplish this task.
 
 Data Pipeline
-Picture
+![data pipeline](readme/data_pipe.png)
 
 Data Source
 I collected data by two means:
