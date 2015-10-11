@@ -32,6 +32,17 @@ I vectoriezed the descriptions of the listings with TF-IDF, then used Non-negati
 I compared random forest, linear regression and gradient boosting and found gradient boosting performed the best.
 I did five different models in my study, and compared the results of each model.
 ![model](readme/model.png)
+The most important features are:
+* SQFT
+* Basic information about a listing (latent feature)
+* Building age
+* Days on market
+* Amenities (latent feature)
+* Location (latent feature)
+* HOA
+* Lot size
+* Number of beds
+* Number of baths
 
 
 ## Possible future work
