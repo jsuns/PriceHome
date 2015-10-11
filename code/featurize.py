@@ -51,7 +51,7 @@ def get_tfidf(clean_desc):
 	return vectorizer, X
 
 
-def run_nmf(X, vectorizer, n_topics=5, print_top_words=False):
+def run_nmf(X, vectorizer, n_topics=4, print_top_words=False):
 	'''
 	INPUT: Vectorized word array, vectorizer object, number of latent 
 	features to uncover, whether to print the top words from each latent

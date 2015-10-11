@@ -23,7 +23,7 @@ I used clean.py to clean and prepare data.
 To predict the price, I used Medain Neighbors Price to approximate the way how real estate agents do in real life. I also added basic listing information as features (sqft, lot size, parking information, years of built, HOA amount, home style etc). In addition, I extracted four latent features from listing descriptions to capture more information about a listing.
 
 #### Median Neighbors Price
-I used k-Nearest Neighbors algorithm to find the k nearest neighbors, and calculate the median price. Finding the geographically closed comparable listings to any given listing involves computationally expansive calculation. I adopted KD-Trees to recursively partition the dataset by latitude and longitude before doing the search.
+I used k-Nearest Neighbors algorithm to find the k nearest neighbors, and calculated the median price. Finding the geographically closed comparable listings to any given listing involves computationally expansive calculation. I adopted KD-Trees to recursively partition the dataset by latitude and longitude before doing the search.
 
 #### Latent Features
 I vectoriezed the descriptions of the listings with TF-IDF, then used Non-negative Matrix Factorization to get four latent features and incorperated them into my models.
