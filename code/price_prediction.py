@@ -91,6 +91,15 @@ def prepare(df, n_topics, n_nbs):
 
 	return df
 
+def create_test(df):
+	'''
+	INPUT: Pandas dataframe
+	OUTPUT: Create different data set for training and testing; use the past six month data for testing.
+	'''
+	df_train = df[pd.to_datetime(df['last sale date']) <= datetime(2015, 4, 4)]
+	df_test = df[pd.to_datetime(df['last sale date']) > datetime(2015, 4, 4)]
+	return df_train, df_test
+
 def create_test_price_no_latent_mnp(df):
 	'''
 	INPUT: Pandas dataframe
