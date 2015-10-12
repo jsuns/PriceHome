@@ -48,6 +48,7 @@ The most important features are:
 ## Possible future work
 * Extract more features from web page (school information, more interior information)
 * Personalize the model by zip codes
+* Create a web app to predict price for user input listings
 
 
 
