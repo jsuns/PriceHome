@@ -30,7 +30,7 @@ I vectorized the descriptions of the listings with TF-IDF, then used Non-Negativ
 
 ## Models
 I compared random forest, linear regression and gradient boosting and found gradient boosting performed the best.
-I did five different models in my study, and compared the results of each model.
+I did five different models in my study, and compared the results of each model. For six month data, I used 70/30 train-test split to evaluate my models. For three years data, I used the first two and half years data for traning and the last six month data for testing.
 ![model](readme/model.png)
 The most important features are:
 * SQFT
